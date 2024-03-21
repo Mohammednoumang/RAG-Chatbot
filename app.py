@@ -18,8 +18,8 @@ if 'vectorDB' not in st.session_state:
     st.session_state.vectorDB = None
 if 'messages' not in st.session_state:
     st.session_state.messages = []
-if 'bot_name' not in st.session_state:
-    st.session_state.bot_name = ""
+if 'qa_pairs' not in st.session_state:
+    st.session_state.qa_pairs = []
 
 # Function to extract text from a PDF file
 def get_pdf_text(pdf):
@@ -87,3 +87,12 @@ if __name__ == '__main__':
                 st.write(response)
             # Add assistant response to chat history
             st.session_state.messages.append({"role": "assistant", "content": response})
+            # Store the question-answer pair in the qa_pairs list
+            st.session_state.qa_pairs.append({"question": prompt, "answer": response})
+
+    # Display the list of question-answer pairs
+    st.subheader("Question-Answer Pairs")
+    for pair in st.session_state.qa_pairs:
+        st.write(f"Question: {pair['question']}")
+        st.write(f"Answer: {pair['answer']}")
+        st.write("---")
